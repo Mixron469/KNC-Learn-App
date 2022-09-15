@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "78359888272",
+    "firebase_url": "https://knc-learn-db-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "knc-learn-db",
+    "storage_bucket": "knc-learn-db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:78359888272:android:7de1580a812d2270777315",
+        "android_client_info": {
+          "package_name": "com.example.knc_learn_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "78359888272-jl73m3qm2sd9apug95ras6qno028e65e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLj8f_zjG-GFhlzIyLWvT07PGYMI57vJk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "78359888272-jl73m3qm2sd9apug95ras6qno028e65e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "78359888272-keb5qab5tph2d6uvfjubhq71k1fqjg7a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.kncLearnApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
