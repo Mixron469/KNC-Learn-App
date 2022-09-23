@@ -293,6 +293,8 @@ class _BuildFormState extends State<BuildForm> {
             'frontname': frontName,
             'lastname': lastName,
             'password': password,
+            'urlprofilepic':
+                'https://png.pngitem.com/pimgs/s/130-1300380_female-user-image-icon-hd-png-download.png',
           };
           await docUser.set(jsonCreateUser).then((value) {
             _formKey.currentState.reset();

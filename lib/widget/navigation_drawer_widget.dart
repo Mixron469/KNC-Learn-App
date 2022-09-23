@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:knc_learn_app/widget/page/page1.dart';
+import 'package:knc_learn_app/widget/page/page1/page1.dart';
 import 'package:knc_learn_app/widget/page/page2.dart';
 import 'package:knc_learn_app/widget/page/page3.dart';
 import 'package:knc_learn_app/widget/page/page4.dart';
@@ -80,7 +80,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
             context: context,
             name: prefsName ?? 'User Name',
             urlImage: prefsUrlImage ??
-                'https://t4.ftcdn.net/jpg/04/75/00/99/360_F_475009987_zwsk4c77x3cTpcI3W1C1LU4pOSyPKaqi.jpg',
+                'https://png.pngitem.com/pimgs/s/130-1300380_female-user-image-icon-hd-png-download.png',
             email: email,
           );
         });

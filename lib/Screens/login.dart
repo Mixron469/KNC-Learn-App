@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:knc_learn_app/Screens/home.dart';
+import 'package:knc_learn_app/Screens/password_recov.dart';
+import 'package:knc_learn_app/Screens/snackbar.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key key}) : super(key: key);
@@ -137,6 +138,28 @@ class _LoginScreenState extends State<LoginScreen> {
                 margin: const EdgeInsets.symmetric(horizontal: 40),
                 child: passwordField,
               ),
+              SizedBox(height: size.height * 0.01),
+              Container(
+                alignment: Alignment.centerRight,
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                child: GestureDetector(
+                  onTap: () => {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const PasswordRecoveryScreen()))
+                  },
+                  child: const Text(
+                    "Forgot your password?",
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF2661FA)),
+                  ),
+                ),
+              ),
               SizedBox(height: size.height * 0.05),
               Container(
                 alignment: Alignment.centerRight,
@@ -177,18 +200,31 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> firebasePutLoginTimeStamp() async {
-    final User user = FirebaseAuth.instance.currentUser;
-    final uid = user.uid;
-    final docUser = FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .collection('login_timestamp')
-        .doc();
-    final jsonFalse = {
-      'logindata_datetime': DateTime.now(),
-      'auto_login': false,
-    };
-    await docUser.set(jsonFalse);
+    bool manualLogin = false;
+    setState(() {
+      final User user = FirebaseAuth.instance.currentUser;
+      final uid = user.uid;
+
+      final docUser = FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .collection('login_timestamp')
+          .doc();
+      final jsonFalse = {
+        'logindata_datetime': DateTime.now(),
+        'auto_login': manualLogin,
+      };
+
+      if (manualLogin == false) {
+        setState(() {
+          docUser.set(jsonFalse).then((value) {
+            setState(() {
+              manualLogin == true;
+            });
+          });
+        });
+      }
+    });
   }
 
   Future<void> trySignIn(String email, String password) async {
@@ -198,7 +234,8 @@ class _LoginScreenState extends State<LoginScreen> {
           .then((uid) async => {
                 await firebasePutLoginTimeStamp().then((value) {
                   FocusManager.instance.primaryFocus?.unfocus();
-                  Fluttertoast.showToast(msg: "Login Successful");
+                  Utils.showSnackBar(
+                      text: "Login Successful", color: Colors.green);
                   Navigator.of(context).pop();
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
@@ -231,7 +268,7 @@ class _LoginScreenState extends State<LoginScreen> {
         default:
           errorMessage = "An undefined Error happened.";
       }
-      Fluttertoast.showToast(msg: errorMessage);
+      Utils.showSnackBar(text: errorMessage, color: Colors.redAccent);
       // ignore: avoid_print
       print(error.code);
     }

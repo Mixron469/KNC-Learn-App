@@ -15,20 +15,28 @@ class AuthSplashPage extends StatefulWidget {
 
 class _AuthSplashPageState extends State<AuthSplashPage> {
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
-
+  bool autoLogin = true;
   Future<void> firebasePutAutoLoginTimeStamp() async {
-    final User user = FirebaseAuth.instance.currentUser;
-    final uid = user.uid;
-    final docUser = FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .collection('login_timestamp')
-        .doc();
-    final jsonTrue = {
-      'logindata_datetime': DateTime.now(),
-      'auto_login': true,
-    };
-    await docUser.set(jsonTrue);
+    setState(() {
+      final User user = FirebaseAuth.instance.currentUser;
+      final uid = user.uid;
+
+      final docUser = FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .collection('login_timestamp')
+          .doc();
+      final jsonTrue = {
+        'logindata_datetime': DateTime.now(),
+        'auto_login': autoLogin,
+      };
+      if (autoLogin == true) {
+        setState(() {
+          docUser.set(jsonTrue);
+          autoLogin == false;
+        });
+      }
+    });
   }
 
   Future<void> authStateCheck() async {
@@ -58,6 +66,20 @@ class _AuthSplashPageState extends State<AuthSplashPage> {
   }
 
   @override
+  void initState() {
+    authStateCheck();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    setState(() {
+      autoLogin = false;
+    });
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: firebase,
@@ -70,7 +92,12 @@ class _AuthSplashPageState extends State<AuthSplashPage> {
           );
         }
         if (snapshot.connectionState == ConnectionState.done) {
-          authStateCheck();
+          return const Scaffold(
+            backgroundColor: Color.fromARGB(255, 186, 209, 245),
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
         }
         return const Scaffold(
           backgroundColor: Color.fromARGB(255, 186, 209, 245),

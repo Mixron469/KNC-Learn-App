@@ -6,6 +6,7 @@ import 'package:knc_learn_app/Screens/auth_splash_screen.dart';
 import 'package:knc_learn_app/Screens/before_login_splash.dart';
 import 'package:knc_learn_app/Screens/home.dart';
 import 'package:knc_learn_app/Screens/login.dart';
+import 'package:knc_learn_app/Screens/snackbar.dart';
 import 'package:knc_learn_app/quiz_app/result_page.dart';
 import 'package:knc_learn_app/quiz_app/how_to_play.dart';
 
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
     int score;
     int usedTime;
     return MaterialApp(
+      scaffoldMessengerKey: messengerKey,
       title: 'KNC Learn',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
